@@ -2,31 +2,29 @@ import { useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useRestaurantList from "../utils/useRestaurantList";
+
 const RestaurantContainer = () => {
+  const { resList, loading, error } = useRestaurantList();
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [copyListOfRestaurants, setCopyListOfRestaurants] = useState([]);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (resList) {
+      setListOfRestaurants(resList);
+      setCopyListOfRestaurants(resList);
+    }
+  }, [resList]);
 
-  //conditional rendering
-  if (listOfRestaurants?.length === 0) {
+  // Conditional rendering for loading state
+  if (loading) {
     return <Shimmer />;
   }
 
-  async function fetchData() {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING"
-    );
-    const json = await data.json();
-    setListOfRestaurants(
-      json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants
-    );
-    setCopyListOfRestaurants(
-      json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants
-    );
+  // Conditional rendering for error state
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
 
   return (
@@ -57,9 +55,7 @@ const RestaurantContainer = () => {
             <button
               onClick={() => {
                 const filterData = listOfRestaurants.filter((res) =>
-                  res.info.name
-                    .toLowerCase()
-                    .includes(searchText.toLocaleLowerCase())
+                  res.info.name.toLowerCase().includes(searchText.toLowerCase())
                 );
                 setCopyListOfRestaurants(filterData);
               }}
@@ -70,13 +66,14 @@ const RestaurantContainer = () => {
         </div>
       </div>
       <div className="restaurant-container">
-        {copyListOfRestaurants.map((restaurant) => {
-          return (
-            <Link to="/restaurant/:1234" key={restaurant.info.id}>
-              <RestaurantCard restaurantData={restaurant.info} />
-            </Link>
-          );
-        })}
+        {copyListOfRestaurants.map((restaurant) => (
+          <Link
+            to={`/restaurant/${restaurant.info.id}`}
+            key={restaurant.info.id}
+          >
+            <RestaurantCard restaurantData={restaurant.info} />
+          </Link>
+        ))}
       </div>
     </div>
   );

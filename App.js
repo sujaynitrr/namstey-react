@@ -33,7 +33,7 @@
     -Contact
     -      
 */
-import React from "react";
+import React, { lazy } from "react";
 import ReactDOM from "react-dom";
 import Header from "./src/Components/Header";
 import RestaurantContainer from "./src/Components/RestaurantContainer";
@@ -45,14 +45,22 @@ import Error from "./src/Components/Error";
 import RestaurantsMenu from "./src/Components/RestaurantsMenu";
 import User from "./src/Components/User";
 import AboutClassComponent from "./src/Components/AboutClassComponent";
+import Grocery from "./src/Components/Grocery";
+
+//chucking
+//code splitting
+//Dynamic Bundling
+//lazy loading
+//on demand loading
+//dynamix import
+
+const Grocery = lazy(() => import("./src/Components/Grocery"));
 
 const AppLayoutComponent = () => {
   return (
     <div>
       <Header />
-      <User />
 
-      {/* <AboutClassComponent /> */}
       <Outlet />
       <Footer />
     </div>
@@ -78,6 +86,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/restaurant/:resId",
         element: <RestaurantsMenu />,
+      },
+      {
+        path: "/grocery",
+        element: <Grocery />,
       },
     ],
 
