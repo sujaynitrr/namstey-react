@@ -28,3 +28,14 @@ const RestaurantCard = ({ restaurantData }) => {
 };
 
 export default RestaurantCard;
+
+export const PromptedRestaurantCard = (RestaurantCard) => {
+  return (props) => {
+    return (
+      <div>
+        <label>Promoted</label>
+        <RestaurantCard {...props} />
+      </div>
+    );
+  };
+};

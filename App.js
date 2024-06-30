@@ -1,39 +1,4 @@
-{
-  /* <div id="parent">
-  <div id="child">
-    <h1>I am h1 tag</h1>
-     <h1>I am h2 tag</h1>
-  </div>
-  <div id="child2">
-    <h1>I am h1 tag</h1>
-     <h1>I am h2 tag</h1>
-  </div>
-  
-  <div id="parent">
-  <div id="child">
-    <h1>I am h1 tag</h1>
-     <h1>I am h2 tag</h1>
-  </div>
-  <div id="child2">
-    <h1>I am h1 tag</h1>
-     <h1>I am h2 tag</h1>
-  </div>
-  
-</div>; */
-}
-/* -Header
-    -Logo
-    -Home
-    -About
-  Body 
-    -Search
-    -RestaurantContainer
-      -RestaurantCard
-  Footer
-    -Contact
-    -      
-*/
-import React, { lazy } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import Header from "./src/Components/Header";
 import RestaurantContainer from "./src/Components/RestaurantContainer";
@@ -46,23 +11,26 @@ import RestaurantsMenu from "./src/Components/RestaurantsMenu";
 import User from "./src/Components/User";
 import AboutClassComponent from "./src/Components/AboutClassComponent";
 import Grocery from "./src/Components/Grocery";
-
-//chucking
-//code splitting
-//Dynamic Bundling
-//lazy loading
-//on demand loading
-//dynamix import
+import Accordion from "./src/components/Accordion";
+import userContext from "./src/utils/userContext";
+import ContactClassComponent from "./src/components/ContactClassComponent";
 
 const Grocery = lazy(() => import("./src/Components/Grocery"));
 
 const AppLayoutComponent = () => {
+  //updating the value using in userContext
+  const [userName, setUserName] = useState();
+  useEffect(() => {
+    setUserName("Sujay");
+  }, []);
+
   return (
     <div>
-      <Header />
-
-      <Outlet />
-      <Footer />
+      <userContext.Provider value={{ user: userName, setUserName }}>
+        <Header />
+        <Outlet />
+        <Footer />
+      </userContext.Provider>
     </div>
   );
 };
@@ -77,11 +45,11 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <About />,
+        element: <AboutClassComponent />,
       },
       {
         path: "/contact",
-        element: <Contact />,
+        element: <ContactClassComponent />,
       },
       {
         path: "/restaurant/:resId",

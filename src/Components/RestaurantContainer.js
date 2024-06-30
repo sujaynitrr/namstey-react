@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react";
-import RestaurantCard from "./RestaurantCard";
+import { useContext, useEffect, useState } from "react";
+import RestaurantCard, { PromptedRestaurantCard } from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useRestaurantList from "../utils/useRestaurantList";
+import userContext from "../utils/userContext";
 
 const RestaurantContainer = () => {
   const { resList, loading, error } = useRestaurantList();
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [copyListOfRestaurants, setCopyListOfRestaurants] = useState([]);
+  const PromptedCard = PromptedRestaurantCard(RestaurantCard);
+  const { user, setUserName } = useContext(userContext);
+  console.log(user, setUserName, "user");
 
   useEffect(() => {
     if (resList) {
@@ -52,6 +56,12 @@ const RestaurantContainer = () => {
             />
           </div>
           <div>
+            <input
+              placeholder="Enter Name"
+              onChange={(e) => setUserName(e.target.value)}
+            />
+          </div>
+          <div>
             <button
               onClick={() => {
                 const filterData = listOfRestaurants.filter((res) =>
@@ -72,6 +82,9 @@ const RestaurantContainer = () => {
             key={restaurant.info.id}
           >
             <RestaurantCard restaurantData={restaurant.info} />
+
+            {/* Higher order component */}
+            <PromptedCard restaurantData={restaurant.info} />
           </Link>
         ))}
       </div>

@@ -43,4 +43,45 @@
         }
     },[])
 
- # When don't cleanup it chance league the memory            
+ # When don't cleanup it chance league the memory    
+
+
+
+ # performance optimization
+    //chucking
+    //code splitting
+    //Dynamic Bundling
+    //lazy loading
+    //on demand loading
+    //dynamix import        
+
+# Higher order component
+
+For higher order component, it takes a component and enhance some features without changing original component and return new updated component
+
+const Card=({res})=>{
+    const name={res};
+    return(
+        <div>
+            {name}
+        </div>
+        
+    ) 
+} 
+export default Card  
+
+export const Hoc=(Card)=>{
+    return (props)=>{
+        return(
+            <div>
+                <label>Promoted</label>
+                <Card {...props}/>
+            </div>
+        )
+    }
+}
+
+
+How to use HOC
+
+<Hoc res={info}/>  

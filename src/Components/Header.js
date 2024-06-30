@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import useStatus from "../utils/useStatus";
+import userContext from "../utils/userContext";
 
 const Header = () => {
   let btn = "Login";
   const [dynamicButton, setDynamicButton] = useState(btn);
   const onlineStatus = useStatus();
-  console.log(onlineStatus, "onlineStatus");
+  const { user } = useContext(userContext);
+
   if (onlineStatus === false)
     return (
       <h1>
@@ -24,6 +26,7 @@ const Header = () => {
       </div>
       <div>
         <ul className="nav">
+          <li>{user}</li>
           <li>online status:{onlineStatus ? "🟢" : "🔴"}</li>
           <li>
             <Link to="/">Home</Link>
@@ -37,6 +40,7 @@ const Header = () => {
           <li>
             <Link to="/grocery">Grocery</Link>
           </li>
+
           <li>
             <button
               onClick={() =>
