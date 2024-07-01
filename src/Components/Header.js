@@ -2,12 +2,15 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import useStatus from "../utils/useStatus";
 import userContext from "../utils/userContext";
+import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
   let btn = "Login";
   const [dynamicButton, setDynamicButton] = useState(btn);
   const onlineStatus = useStatus();
   const { user } = useContext(userContext);
+  const item = useSelector((store) => store.cart.item);
+  console.log(item.length, "item");
 
   if (onlineStatus === false)
     return (
@@ -26,6 +29,8 @@ const Header = () => {
       </div>
       <div>
         <ul className="nav">
+          <li>{item.length}</li>
+          <li>Cart</li>
           <li>{user}</li>
           <li>online status:{onlineStatus ? "🟢" : "🔴"}</li>
           <li>

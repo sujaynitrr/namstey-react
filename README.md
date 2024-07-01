@@ -85,3 +85,12 @@ export const Hoc=(Card)=>{
 How to use HOC
 
 <Hoc res={info}/>  
+
+
+# Redux
+# How to install redux in our application
+# Follows the following steps
+1. install the npm install @reduxjs/toolkit and react-redux
+2. create store using createSliceStore
+3. Provide the store at root label of application using <Provider store={enter name of store here}>
+4. 

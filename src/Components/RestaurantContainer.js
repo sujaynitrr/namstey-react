@@ -4,6 +4,7 @@ import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useRestaurantList from "../utils/useRestaurantList";
 import userContext from "../utils/userContext";
+import { useDispatch } from "react-redux";
 
 const RestaurantContainer = () => {
   const { resList, loading, error } = useRestaurantList();
@@ -12,6 +13,7 @@ const RestaurantContainer = () => {
   const [copyListOfRestaurants, setCopyListOfRestaurants] = useState([]);
   const PromptedCard = PromptedRestaurantCard(RestaurantCard);
   const { user, setUserName } = useContext(userContext);
+  useDispatch;
   console.log(user, setUserName, "user");
 
   useEffect(() => {
@@ -72,6 +74,8 @@ const RestaurantContainer = () => {
             >
               Search
             </button>
+            <button>+</button>
+            <button>-</button>
           </div>
         </div>
       </div>

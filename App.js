@@ -14,6 +14,8 @@ import Grocery from "./src/Components/Grocery";
 import Accordion from "./src/components/Accordion";
 import userContext from "./src/utils/userContext";
 import ContactClassComponent from "./src/components/ContactClassComponent";
+import { Provider } from "react-redux";
+import appStore from "./src/utils/appStore";
 
 const Grocery = lazy(() => import("./src/Components/Grocery"));
 
@@ -26,11 +28,13 @@ const AppLayoutComponent = () => {
 
   return (
     <div>
-      <userContext.Provider value={{ user: userName, setUserName }}>
-        <Header />
-        <Outlet />
-        <Footer />
-      </userContext.Provider>
+      <Provider store={appStore}>
+        <userContext.Provider value={{ user: userName, setUserName }}>
+          <Header />
+          <Outlet />
+          <Footer />
+        </userContext.Provider>
+      </Provider>
     </div>
   );
 };
